@@ -214,9 +214,9 @@ public class WizardGameState {
     }
 
 
-    public boolean placeBid(int player, int bid)
+    public boolean placeBid(int playerNum, int bid, String player)
     {
-        if (player != playerTurn || bid < 0 || bid > roundNum)
+        if (playerNum != playerTurn || bid < 0 || bid > roundNum)
         {
             return false;
         }
@@ -224,7 +224,7 @@ public class WizardGameState {
         {
             if(bidNum.containsKey(player))
             {
-                bidNum.replace(player, 0, bid);
+                bidNum.put(player, bid);
             }
             playerTurn++;
             return true;
@@ -233,9 +233,11 @@ public class WizardGameState {
 
     public boolean playCard(int player, String card)
     {
-        if (player == playerTurn && playerHand.containsKey(card))
+        Hashtable<String, Integer>  currentHand = playerArray.get(player);
+        if (player == playerTurn && currentHand.containsKey(card))
         {
-            playerHand.remove(card);
+            currentHand.remove(card);
+            playerArray.set(player, currentHand);
             cardsPlayed.add(card);
             playerTurn++;
             return true;
