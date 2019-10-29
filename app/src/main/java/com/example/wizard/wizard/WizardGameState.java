@@ -1,11 +1,13 @@
 package com.example.wizard.wizard;
 
+import com.example.wizard.GameFramework.infoMessage.GameState;
+
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Random;
 
-public class WizardGameState {
+public class WizardGameState extends GameState {
     private int playerTurn; //which players turn it is
     private int cardPlayed; //card number player chooses to play for round
     private int gameStage;  //which state of the game the player is in
