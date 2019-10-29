@@ -8,81 +8,37 @@ import java.util.Random;
 public class WizardGameState {
     private int playerTurn; //which players turn it is
     private int cardPlayed; //card number player chooses to play for round
-    private int playerScore;    //players total score
     private int gameStage;  //which state of the game the player is in
     private int trumpCard;  //value of trump card
-    private int roundNum;
+    public int roundNum;
+    private static String cardSuit;   //cards suit
+    private static int cardValue;  //cards value
     private int numberPlayers = 3;
-    private Hashtable<String, Integer>  bidNum = new Hashtable<String, Integer>();
+    //HASHTABLE FOR PLAYERS SCORES
+    private Hashtable<String, Integer> playerScore = new Hashtable<>();
+    private Hashtable<String, Integer> bidNum = new Hashtable<String, Integer>();
     private Hashtable<String, Integer> deck = new Hashtable<String, Integer>();   //all the cards in the deck
     private List<Hashtable<String, Integer>> playerArray = new ArrayList<Hashtable<String, Integer>>();
     private ArrayList<String> cardsPlayed = new ArrayList<>();
 
-
-    public int getPlayerTurn() {
-        return playerTurn;
-    }
-
-    public int getBidNum() {
-        return bidNum;
-    }
-
-    public int getCardPlayed() {
-        return cardPlayed;
-    }
-
-    public int getPlayerScore() {
-        return playerScore;
-    }
-
-    public int getGameStage() {
-        return gameStage;
-    }
-
-    public int getTrumpCard() {
-        return trumpCard;
-    }
-
-    public int getRoundNum() {
-        return roundNum;
-    }
-
-    public void setPlayerTurn(int playerTurn) {
-        this.playerTurn = playerTurn;
-    }
-
-    public void setBidNum(int bidNum) {
-        this.bidNum = bidNum;
-    }
-
-    public void setCardPlayed(int cardPlayed) {
-        this.cardPlayed = cardPlayed;
-    }
-
-    public void setPlayerScore(int playerScore) {
-        this.playerScore = playerScore;
-    }
-
-    public void setGameStage(int gameStage) {
-        this.gameStage = gameStage;
-    }
-
-    public void setTrumpCard(int trumpCard) {
-        this.trumpCard = trumpCard;
-    }
-
-    public void setRoundNum(int roundNum) {
-        this.roundNum = roundNum;
-    }
-
     public WizardGameState(){
         this.playerTurn = 0; //player 0 will go first
-        this.bidNum = 0;
         this.cardPlayed = -1;    //player has no played card yet
-        this.playerScore = 0;
         this.gameStage = 0;      //starts at game state 0: bidding phase
         this.trumpCard = -1;     //trump card is not decided yet?
         this.roundNum = 1;
+
+        //CHANGED
+        playerScore.put("player 1", 0);
+        playerScore.put("player 2", 0);
+        playerScore.put("player 3", 0);
+        playerScore.put("player 4", 0);
+
+        bidNum.put("player 1", 0);
+        bidNum.put("player 2", 0);
+        bidNum.put("player 3", 0);
+        bidNum.put("player 4", 0);
+
         deck.put("heart zero", 0);    //joker
         deck.put("heart two", 2);
         deck.put("heart three", 3);
@@ -176,7 +132,7 @@ public class WizardGameState {
     public void dealDeck(Hashtable deck, Hashtable playerHand, int numTricks){
         Random random = new Random();
         String[] cardSuit = {"club", "diamond", "heart", "spade"};
-        String[] cardValue = {"zero", "one", "two",
+        String[] cardValue = {"zero", "two",
                 "three", "four", "five",
                 "six", "seven", "eight",
                 "nine", "ten", "eleven",
@@ -213,25 +169,28 @@ public class WizardGameState {
                 "\n Player's Hand: " + this.playerArray;
     }
 
-
-    public boolean placeBid(int player, int bid)
+    //CHANGED
+    public boolean placeBid(Hashtable bidNum, int bid)
     {
-        if (player != playerTurn || bid < 0 || bid > roundNum)
+        String player = "player" + playerTurn + "Hand";
+        if (bidNum.containsKey(player) && bid >= 0 && bid <= getRoundNum() && gameStage == 0)
         {
-            return false;
+            bidNum.put(player, bid);
+            if (playerTurn == 3){
+                playerTurn = 0;
+            }
+            else {
+                playerTurn++;
+            }
+            return true;
         }
         else
         {
-            if(bidNum.containsKey(player))
-            {
-                bidNum.replace(player, 0, bid);
-            }
-            playerTurn++;
-            return true;
+            return false;
         }
     }
 
-    public boolean playCard(int player, String card)
+    public boolean playCard(Hashtable playerArray, int player, String card)
     {
         if (player == playerTurn && playerHand.containsKey(card))
         {
@@ -245,6 +204,44 @@ public class WizardGameState {
             return false;
         }
     }
+    public int getPlayerTurn() {return playerTurn; }
 
+    public int getCardPlayed() {return cardPlayed; }
+
+    public int getGameStage() { return gameStage; }
+
+    public int getTrumpCard() { return trumpCard; }
+
+    public int getRoundNum() { return roundNum; }
+
+    //CHANGED
+
+    public int getPlayer1Score(){ return (int)playerScore.get("player 1"); }
+
+    public int getPlayer2Score(){ return (int)playerScore.get("player 2"); }
+
+    public int getPlayer3Score(){ return (int)playerScore.get("player 3"); }
+
+    public int getPlayer4Score(){ return (int)playerScore.get("player 4"); }
+
+    public static String getCardSuit() {return cardSuit; }
+
+    public static int getCardValue() {return cardValue;}
+
+    public void setPlayerTurn(int playerTurn) { this.playerTurn = playerTurn; }
+
+    public void setCardPlayed(int cardPlayed) { this.cardPlayed = cardPlayed; }
+
+    public void setGameStage(int gameStage) { this.gameStage = gameStage; }
+
+    public void setTrumpCard(int trumpCard) { this.trumpCard = trumpCard; }
+
+    public void setRoundNum(int roundNum) { this.roundNum = roundNum; }
+
+    //CHANGED
+
+    public void setCardValue(int cardValue) {this.cardValue = cardValue; }
+
+    public void setCardSuit(String cardSuit) {this.cardSuit = cardSuit; }
 
 }

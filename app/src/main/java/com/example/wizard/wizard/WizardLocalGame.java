@@ -11,14 +11,7 @@ public class WizardLocalGame extends LocalGame {
     //Tag for logging
     private static final String TAG = "WizardLocalGame";
     // the game's state
-    protected WizardState state;
-
-    // the marks for player 0 and player 1, respectively
-    private final static char[] mark = {'X','O'};
-
-    // the number of moves that have been played so far, used to
-    // determine whether the game is over
-    protected int moveCount;
+    protected WizardGameState state;
 
     /**
      * Constructor for the WizardLocalGame.
@@ -29,7 +22,7 @@ public class WizardLocalGame extends LocalGame {
         super();
 
         // create a new, unfilled-in WizardState object
-        state = new WizardState();
+        state = new WizardGameState();
     }
 
     /**
@@ -41,66 +34,29 @@ public class WizardLocalGame extends LocalGame {
      * 		game is not over
      */
     @Override
+    //CHANGED
     protected String checkIfGameOver() {
-
-        // the idea is that we simultaneously look at a row, column and
-        // a diagonal, using the variables 'rowToken', 'colToken' and
-        // 'diagToken'; we do this three times so that we get all three
-        // rows, all three columns, and both diagonals.  (The way the
-        // math works out, one of the diagonal tests tests the middle
-        // column.)  The respective variables get set to ' ' unless
-        // all characters in the line that have currently been seen are
-        // identical; in this case the variable contains that character
-
-        // the character that will eventually contain an 'X' or 'O' if we
-        // find a winner
-        char resultChar = ' ';
-
-        // to all three lines in the current group
-        for (int i = 0; i < 3; i++) {
-            // get the initial character in each line
-            char rowToken = state.getPiece(i,0);
-            char colToken = state.getPiece(0,i);;
-            char diagToken = state.getPiece(0,i);
-            // determine the direction that the diagonal moves
-            int diagDelta = 1-i;
-            // look for matches for each of the three positions in each
-            // of the current lines; set the corresponding variable to ' '
-            // if a mismatch is found
-            for (int j = 1; j < 3; j++) {
-                if (state.getPiece(i,j) != rowToken) rowToken = ' ';
-                if (state.getPiece(j,i) != colToken) colToken = ' ';
-                if (state.getPiece(j, i+(diagDelta*j)) != diagToken) diagToken = ' ';
-            }
-
-            ////////////////////////////////////////////////////////////
-            // At this point, if any of our three variables is non-blank
-            // then we have found a winner.
-            ////////////////////////////////////////////////////////////
-
-            // if we find a winner, indicate such by setting 'resultChar'
-            // to the winning mark.
-            if (rowToken != ' ') resultChar = rowToken;
-            else if (colToken != ' ') resultChar = colToken;
-            else if (diagToken != ' ') resultChar = diagToken;
-        }
-
-        // if resultChar is blank, we found no winner, so return null,
-        // unless the board is filled up. In that case, it's a cat's game.
-        if (resultChar == ' ') {
-            if  (moveCount >= 9) {
-                // no winner, but all 9 spots have been filled
-                return "It's a cat's game.";
-            }
-            else {
-                return null; // no winner, but game not over
+        //Game is over after 15 rounds
+        if (state.roundNum == 16) {
+            int player1Score = state.getPlayer1Score();
+            int player2Score = state.getPlayer2Score();
+            int player3Score = state.getPlayer3Score();
+            int player4Score = state.getPlayer4Score();
+            if (player1Score > player2Score && player1Score > player3Score && player1Score > player4Score) {
+                return ("Player 1 is the winner");
+            } else if (player2Score > player1Score && player2Score > player3Score && player2Score > player4Score) {
+                return ("Player 2 is the winner");
+            } else if (player3Score > player1Score && player3Score > player2Score && player3Score > player4Score) {
+                return ("Player 3 is the winner");
+            } else if (player4Score > player1Score && player4Score > player2Score && player4Score > player3Score) {
+                return ("Player 4 is the winner");
+            } else {
+                return ("There is a tie");
             }
         }
-
-        // if we get here, then we've found a winner, so return the 0/1
-        // value that corresponds to that mark; then return a message
-        int gameWinner = resultChar == mark[0] ? 0 : 1;
-        return playerNames[gameWinner]+" is the winner.";
+        else {
+            return null;
+        }
     }
 
     /**
@@ -115,7 +71,7 @@ public class WizardLocalGame extends LocalGame {
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
         // make a copy of the state, and send it to the player
-        p.sendInfo(new WizardState(state));
+        p.sendInfo(new WizardGameState(state));
 
     }
 
@@ -129,7 +85,7 @@ public class WizardLocalGame extends LocalGame {
      * 		true iff the player is allowed to move
      */
     protected boolean canMove(int playerIdx) {
-        return playerIdx == state.getWhoseMove();
+        return playerIdx == state.getPlayerTurn();
     }
 
     /**
@@ -142,6 +98,7 @@ public class WizardLocalGame extends LocalGame {
      */
     @Override
     protected boolean makeMove(GameAction action) {
+
 
         // get the row and column position of the player's move
         WizardMoveAction tm = (WizardMoveAction) action;
