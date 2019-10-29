@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import com.example.wizard.GameFramework.GameMainActivity;
 import com.example.wizard.GameFramework.GamePlayer;
 import com.example.wizard.GameFramework.LocalGame;
-import com.example.wizard.game.R;
 import com.example.wizard.GameFramework.gameConfiguration.GameConfig;
 import com.example.wizard.GameFramework.gameConfiguration.GamePlayerType;
+import com.example.wizard.R;
 import com.example.wizard.wizard.WizardComputerPlayer1;
 import com.example.wizard.wizard.WizardComputerPlayer2;
 

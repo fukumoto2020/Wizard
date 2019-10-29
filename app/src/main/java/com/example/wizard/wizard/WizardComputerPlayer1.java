@@ -39,4 +39,3 @@ public class WizardComputerPlayer1 extends GameComputerPlayer{
 
     }
 }
-}
