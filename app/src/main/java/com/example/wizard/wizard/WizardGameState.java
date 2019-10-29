@@ -192,9 +192,11 @@ public class WizardGameState {
 
     public boolean playCard(Hashtable playerArray, int player, String card)
     {
-        if (player == playerTurn && playerHand.containsKey(card))
+        Hashtable<String, Integer>  currentHand = playerArray.get(player);
+        if (player == playerTurn && currentHand.containsKey(card))
         {
-            playerHand.remove(card);
+            currentHand.remove(card);
+            playerArray.set(player, currentHand);
             cardsPlayed.add(card);
             playerTurn++;
             return true;
