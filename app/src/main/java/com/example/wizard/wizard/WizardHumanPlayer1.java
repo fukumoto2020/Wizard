@@ -104,38 +104,40 @@ public class WizardHumanPlayer1 extends GameHumanPlayer implements View.OnTouchL
             this.player3Score.setText("Player 3 Total Score: "+(((WizardGameState) info).getPlayer3Score()));
             this.player4Score.setText("Player 4 Total Score: "+(((WizardGameState) info).getPlayer4Score()));
 
+
+            //need to change this to use wizardcard objects
             switch(((WizardGameState) info).getCardSuit()){
                 case "diamond":
-                    switch(((WizardGameState) info).getCardValue()){
-                        case "zero":
+                    switch(((WizardGameState) info).getCardNumber()){
+                        case 0:
                             this.card1.setImageResource(R.drawable.jester);
-                        case "two":
+                        case 2:
                             this.card1.setImageResource(R.drawable.two_diamond);
-                        case "three":
+                        case 3:
                             this.card1.setImageResource(R.drawable.three_diamond);
-                        case "four":
+                        case 4:
                             this.card1.setImageResource(R.drawable.four_diamond);
-                        case "five":
+                        case 5:
                             this.card1.setImageResource(R.drawable.five_diamond);
-                        case "six":
+                        case 6:
                             this.card1.setImageResource(R.drawable.six_diamond);
-                        case "seven":
+                        case 7:
                             this.card1.setImageResource(R.drawable.seven_diamond);
-                        case "eight":
+                        case 8:
                             this.card1.setImageResource(R.drawable.eight_diamond);
-                        case "nine":
+                        case 9:
                             this.card1.setImageResource(R.drawable.nine_diamond);
-                        case "ten":
+                        case 10:
                             this.card1.setImageResource(R.drawable.ten_diamond);
-                        case "eleven":
+                        case 11:
                             this.card1.setImageResource(R.drawable.jack_diamond);
-                        case "twelve":
+                        case 12:
                             this.card1.setImageResource(R.drawable.queen_diamond);
-                        case "thirteen":
+                        case 13:
                             this.card1.setImageResource(R.drawable.king_diamond);
-                        case "fourteen":
+                        case 14:
                             this.card1.setImageResource(R.drawable.ace_diamond);
-                        case "fifteen":
+                        case 15:
                             this.card1.setImageResource(R.drawable.wizard);
                     }
                 case "heart":
