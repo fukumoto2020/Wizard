@@ -41,4 +41,9 @@ public class WizardPlayer extends WizardGameState {
         playerScore = score;
     }
 
+    public int getPlayerScore() { return playerScore; }
+
+    public int getBidNum() { return bidNum; }
+
+
 }

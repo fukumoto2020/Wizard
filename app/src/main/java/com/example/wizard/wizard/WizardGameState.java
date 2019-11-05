@@ -246,4 +246,9 @@ public class WizardGameState extends GameState {
 
     public void setCardSuit(String cardSuit) {this.cardSuit = cardSuit; }
 
+    //Get information from a certain player, must provide the desired player number
+    public WizardPlayer getPlayerInfo(int playerID){
+        return listOfPlayers.get(playerID);
+    }
+
 }

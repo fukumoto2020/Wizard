@@ -38,10 +38,10 @@ public class WizardLocalGame extends LocalGame {
     protected String checkIfGameOver() {
         //Game is over after 15 rounds
         if (state.roundNum == 16) {
-            int player1Score = state.getPlayer1Score();
-            int player2Score = state.getPlayer2Score();
-            int player3Score = state.getPlayer3Score();
-            int player4Score = state.getPlayer4Score();
+            int player1Score = state.getPlayerInfo(0).getPlayerScore();
+            int player2Score = state.getPlayerInfo(1).getPlayerScore();
+            int player3Score = state.getPlayerInfo(2).getPlayerScore();
+            int player4Score = state.getPlayerInfo(3).getPlayerScore();
             if (player1Score > player2Score && player1Score > player3Score && player1Score > player4Score) {
                 return ("Player 1 is the winner");
             } else if (player2Score > player1Score && player2Score > player3Score && player2Score > player4Score) {
