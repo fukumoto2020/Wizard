@@ -100,27 +100,34 @@ public class WizardLocalGame extends LocalGame {
     protected boolean makeMove(GameAction action) {
 
 
-        // get the row and column position of the player's move
+        // get the suit and value of the player's hand
         WizardMoveAction tm = (WizardMoveAction) action;
-        int row = tm.getRow();
-        int col = tm.getCol();
+        int cardValue = tm.getCardValue();
+        String cardSuit = tm.getCardSuit();
 
-        // get the 0/1 id of our player
+        // get the id of our player
         int playerId = getPlayerIdx(tm.getPlayer());
 
-        // if that space is not blank, indicate an illegal move
-        if (state.getPiece(row, col) != ' ') {
+        //if the player tries to play a card when it is not their turn, indicate an illegal move
+        if(playerId != state.getPlayerTurn()){
             return false;
         }
 
-        // get the 0/1 id of the player whose move it is
-        int whoseMove = state.getWhoseMove();
+        // if that space is not blank, indicate an illegal move
+        //if (state.getPiece(row, col) != ' ') {
+        //    return false;
+        //}
 
+        // get the id of the player whose move it is
+        int whoseMove = state.getPlayerTurn();
+
+        //place the player's selected card in the middle
+        state.setCardPlayed(cardValue, cardSuit, player's hand);
         // place the player's piece on the selected square
         state.setPiece(row, col, mark[playerId]);
 
         // make it the other player's turn
-        state.setWhoseMove(1-whoseMove);
+        state.setPlayerTurn(whoseMove++);
 
         // bump the move count
         moveCount++;

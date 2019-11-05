@@ -99,14 +99,14 @@ public class WizardHumanPlayer1 extends GameHumanPlayer implements View.OnTouchL
         //CHANGED
 
         if (info instanceof WizardGameState){
-            this.player1Score.setText("Player 1 Total Score: "+(((WizardGameState) info).getPlayer1Score()));
-            this.player2Score.setText("Player 2 Total Score: "+(((WizardGameState) info).getPlayer2Score()));
-            this.player3Score.setText("Player 3 Total Score: "+(((WizardGameState) info).getPlayer3Score()));
-            this.player4Score.setText("Player 4 Total Score: "+(((WizardGameState) info).getPlayer4Score()));
+            this.player1Score.setText("Player 1 Total Score: "+(((WizardPlayer) info).getPlayer1Score()));
+            this.player2Score.setText("Player 2 Total Score: "+(((WizardPlayer) info).getPlayer2Score()));
+            this.player3Score.setText("Player 3 Total Score: "+(((WizardPlayer) info).getPlayer3Score()));
+            this.player4Score.setText("Player 4 Total Score: "+(((WizardPlayer) info).getPlayer4Score()));
 
 
             //need to change this to use wizardcard objects
-            switch(((WizardGameState) info).getCardSuit()){
+            switch(((WizardCards) info).getCardValue()){
                 case "diamond":
                     switch(((WizardGameState) info).getCardNumber()){
                         case 0:
