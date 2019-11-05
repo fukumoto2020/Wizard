@@ -221,5 +221,3 @@ public class WizardComputerPlayer2 extends GameComputerPlayer {
     }// helpFindWin
 
 }
-
-}

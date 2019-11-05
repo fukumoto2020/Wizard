@@ -13,7 +13,7 @@ import com.example.wizard.R;
 import com.example.wizard.GameFramework.infoMessage.GameInfo;
 import com.example.wizard.GameFramework.infoMessage.IllegalMoveInfo;
 
-public class WizardHumanPlayer2 extends GameHumanPlayer implements onClickListener {
+public class WizardHumanPlayer2 extends GameHumanPlayer implements View.onClickListener {
     //Tag for logging
     private static final String TAG = "WizardHumanPlayer2";
     // the activity under which we're running
