@@ -1,7 +1,7 @@
 package com.example.wizard.wizard;
 
 import android.graphics.Color;
-import android.view.View;
+//import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,7 +13,7 @@ import com.example.wizard.R;
 import com.example.wizard.GameFramework.infoMessage.GameInfo;
 import com.example.wizard.GameFramework.infoMessage.IllegalMoveInfo;
 
-public class WizardHumanPlayer2 extends GameHumanPlayer implements onClickListener {
+public class WizardHumanPlayer2 extends GameHumanPlayer implements View.onClickListener {
     //Tag for logging
     private static final String TAG = "WizardHumanPlayer2";
     // the activity under which we're running
@@ -34,7 +34,7 @@ public class WizardHumanPlayer2 extends GameHumanPlayer implements onClickListen
 
     // android ID values for the padding objects
     private static final int[][] paddingIndices = {
-            {R.id.padding7Top, R.id.padding7Bot},
+            /*{R.id.padding7Top, R.id.padding7Bot},
             {R.id.padding8Top, R.id.padding8Bot},
             {R.id.padding9Top, R.id.padding9Bot},
             {R.id.padding10Top, R.id.padding10Bot},
@@ -43,11 +43,12 @@ public class WizardHumanPlayer2 extends GameHumanPlayer implements onClickListen
             {R.id.padding13Top, R.id.padding13Bot},
             {R.id.padding14Top, R.id.padding14Bot},
             {R.id.padding15Top, R.id.padding15Bot},
+             */
     };
 
     // android ID values for the button objects
     private static final int[] buttonIndices = {
-            R.id.button7,
+            /*R.id.button7,
             R.id.button8,
             R.id.button9,
             R.id.button10,
@@ -56,6 +57,7 @@ public class WizardHumanPlayer2 extends GameHumanPlayer implements onClickListen
             R.id.button13,
             R.id.button14,
             R.id.button15,
+             */
     };
 
     // an array to hold our padding objects. It consists of 9 two-element arrays,
@@ -125,13 +127,17 @@ public class WizardHumanPlayer2 extends GameHumanPlayer implements onClickListen
         if (allPlayerNames == null) return;
 
         // get the two text fields
+        /*
         TextView oppName = (TextView)myActivity.findViewById(R.id.opponentName);
         TextView myName = (TextView)myActivity.findViewById(R.id.thisPlayerName);
+
+
 
         // update them each with the appropriate name, so that the current player
         // is listed on the bottom.
         oppName.setText(allPlayerNames[1-playerNum]);
         myName.setText(allPlayerNames[playerNum]);
+        */
     }
 
     /**
@@ -161,7 +167,7 @@ public class WizardHumanPlayer2 extends GameHumanPlayer implements onClickListen
         myActivity = activity;
 
         // Load the layout resource for the new configuration
-        activity.setContentView(R.layout.wizard_human_player2);
+        //activity.setContentView(R.layout.wizard_human_player2);
 
         // initialize the button-array
         initializeButtons();
@@ -171,11 +177,13 @@ public class WizardHumanPlayer2 extends GameHumanPlayer implements onClickListen
 
         // put the player names into the GUI
         updatePlayerNames();
-
+        /*
         // listen to each of the buttons
         for (int i = 0; i < numberedButtons.length; i++) {
             numberedButtons[i].setOnClickListener(this);
         }
+
+         */
 
         // if we have state, update the GUI based on the state
         if (state != null) {
@@ -191,7 +199,10 @@ public class WizardHumanPlayer2 extends GameHumanPlayer implements onClickListen
      */
     @Override
     public View getTopView() {
+        /*
         return (LinearLayout)myActivity.findViewById(R.id.top_gui_layout);
+
+         */
     }
 
     /**
@@ -305,30 +316,36 @@ public class WizardHumanPlayer2 extends GameHumanPlayer implements onClickListen
             // give the padding above the weight 1, and the
             // padding above the weight 0, which pushes the
             // button down on the screen
-            paddings[0].setLayoutParams(pad1);
+            /*paddings[0].setLayoutParams(pad1);
             paddings[1].setLayoutParams(pad0);
             // set the button's text and background colors
             button.setBackgroundColor(Color.BLUE);
             button.setTextColor(Color.WHITE);
+
+             */
         }
         else if (piece == oppPiece) {
             // give the padding above the weight 1, and the
             // padding above the weight 0, which pushes the
             // button down on the screen
-            paddings[0].setLayoutParams(pad0);
+            /*paddings[0].setLayoutParams(pad0);
             paddings[1].setLayoutParams(pad1);
             // set the button's text and background colors
             button.setBackgroundColor(Color.RED);
             button.setTextColor(Color.WHITE);
+
+             */
         }
         else {
             // set both the above and below padding-weights
             // to 1, which will center the button vertically
-            paddings[0].setLayoutParams(pad1);
+            /*paddings[0].setLayoutParams(pad1);
             paddings[1].setLayoutParams(pad1);
             // set the button's text and background colors
             button.setBackgroundColor(Color.GRAY);
             button.setTextColor(Color.BLACK);
+
+             */
         }
         button.setEnabled(state.getWhoseMove() == playerNum);
     }
@@ -388,12 +405,14 @@ public class WizardHumanPlayer2 extends GameHumanPlayer implements onClickListen
                         int owner3 = playerWhoOwnsPiece(k);
                         if (owner1 >= 0 && owner1 == owner2 && owner1 == owner3) {
                             // all three owners are the same, and are not negative (i.e., blank)
-                            numberedButtons[i-7].setBackgroundColor(Color.GREEN);
+                            /*numberedButtons[i-7].setBackgroundColor(Color.GREEN);
                             numberedButtons[i-7].setTextColor(Color.BLACK);
                             numberedButtons[j-7].setBackgroundColor(Color.GREEN);
                             numberedButtons[j-7].setTextColor(Color.BLACK);
                             numberedButtons[k-7].setBackgroundColor(Color.GREEN);
                             numberedButtons[k-7].setTextColor(Color.BLACK);
+
+                             */
                             // exit all three loops, as we only want to highlight one winner
                             break outer;
                         }

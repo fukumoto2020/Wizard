@@ -1,8 +1,8 @@
 package com.example.wizard.GameFramework.infoMessage;
 
-import java.io.Serializable;
+import com.example.wizard.GameFramework.Game;
 
-import edu.up.cs301.game.GameFramework.Game;
+import java.io.Serializable;
 
 /**
  * An informational message that is sent from the game to a player.  The

@@ -22,7 +22,6 @@ public class WizardPlayer extends WizardGameState {
         this.player4Score = 0;
         runningTotal = 0;
         bidNum = 0;
-
     }
 
     public void addCardtoHand(WizardCards cardToAdd){

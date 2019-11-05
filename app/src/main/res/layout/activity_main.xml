@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".wizard.WizardMainActivity">
 
     <SurfaceView
         android:id="@+id/surfaceView"
@@ -109,8 +109,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/card"
-                        app:srcCompat="@drawable/four_club" />
+                        android:src="@drawable/four_club" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -132,8 +131,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/card"
-                        app:srcCompat="@drawable/eight_diamond" />
+                        android:src="@drawable/eight_diamond" />
 
                     <ImageView
                         android:id="@+id/player4ImageView"
@@ -203,48 +201,42 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/card"
-                        app:srcCompat="@drawable/ace_heart" />
+                        android:src="@drawable/ace_heart" />
 
                     <ImageView
                         android:id="@+id/imageView2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/card"
-                        app:srcCompat="@drawable/five_spade" />
+                        android:src="@drawable/five_spade" />
 
                     <ImageView
                         android:id="@+id/imageView3"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/card"
-                        app:srcCompat="@drawable/queen_spade" />
+                        android:src="@drawable/queen_spade" />
 
                     <ImageView
                         android:id="@+id/imageView4"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/card"
-                        app:srcCompat="@drawable/two_diamond" />
+                        android:src="@drawable/two_diamond" />
 
                     <ImageView
                         android:id="@+id/imageView5"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/card"
-                        app:srcCompat="@drawable/four_diamond" />
+                        android:src="@drawable/four_diamond" />
 
                     <ImageView
                         android:id="@+id/imageView6"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/card"
-                        app:srcCompat="@drawable/queen_heart" />
+                        android:src="@drawable/queen_heart" />
 
                     <ImageView
                         android:id="@+id/imageView7"
@@ -297,14 +289,6 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1.5"
                             android:text="Bid Amount:" />
-
-                        <Spinner
-                            android:id="@+id/spinner"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:entries="15"
-                            android:spinnerMode="dropdown" />
 
                     </LinearLayout>
 

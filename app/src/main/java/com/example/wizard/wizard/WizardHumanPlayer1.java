@@ -1,5 +1,6 @@
 package com.example.wizard.wizard;
 
+
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -14,7 +15,6 @@ import com.example.wizard.GameFramework.GameHumanPlayer;
 import com.example.wizard.GameFramework.GameMainActivity;
 import com.example.wizard.GameFramework.infoMessage.GameState;
 import com.example.wizard.R;
-import com.example.wizard.game.R;
 import com.example.wizard.GameFramework.infoMessage.GameInfo;
 import com.example.wizard.GameFramework.infoMessage.IllegalMoveInfo;
 import com.example.wizard.GameFramework.infoMessage.NotYourTurnInfo;
