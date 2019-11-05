@@ -11,42 +11,23 @@ import java.util.Random;
 
 public class WizardGameState extends GameState {
     private int playerTurn; //which players turn it is
-    private int cardPlayed; //card number player chooses to play for round
     private int gameStage;  //which state of the game the player is in
     private String trumpCard;  //suit of trump card
     public int roundNum;
     private static String cardSuit;   //cards suit
     private static int cardNumber;  //cards value
-    private int numberPlayers = 3;
 
     //HASHTABLE FOR PLAYERS SCORES
-    private Hashtable<String, Integer> playerScore = new Hashtable<>();
-    private Hashtable<String, Integer> bidNum = new Hashtable<String, Integer>();
-   // private Hashtable<String, Integer> deck = new Hashtable<String, Integer>();   //all the cards in the deck
     private ArrayList<WizardCards> deck = new ArrayList<>();
 
     //CHANGED: player array is a list of lists of wizard cards
-    private ArrayList<ArrayList<WizardCards>> playerArray = new ArrayList<>();
     private ArrayList<String> cardsPlayed = new ArrayList<>();
+    private ArrayList<WizardPlayer> listOfPlayers = new ArrayList<WizardPlayer>();
 
     public WizardGameState(){
         this.playerTurn = 0; //player 0 will go first
-        this.cardPlayed = -1;    //player has no played card yet
         this.gameStage = 0;      //starts at game state 0: bidding phase
-        this.trumpCard = "Queen";     //trump card is not decided yet?
         this.roundNum = 1;
-
-        //CHANGED
-        playerScore.put("player 1", 0);
-        playerScore.put("player 2", 0);
-        playerScore.put("player 3", 0);
-        playerScore.put("player 4", 0);
-
-        bidNum.put("player 1", 0);
-        bidNum.put("player 2", 0);
-        bidNum.put("player 3", 0);
-        bidNum.put("player 4", 0);
-
 
         WizardCards heartJoker = new WizardCards("heart", 0);
         WizardCards heartTwo = new WizardCards("heart",2);
@@ -177,61 +158,56 @@ public class WizardGameState extends GameState {
         deck.put("club thirteen", 13);   //king
         deck.put("club fourteen", 14);   //ace
         deck.put("club fifteen", 15);  //wizard*/
-
-        makePlayers(3);
-        //dealDeck(deck, 1); //gives player a random card to start
-        for (int currentHand = 0; currentHand < playerArray.size(); currentHand++){
-            dealDeck(deck, playerArray.get(currentHand), roundNum);
-        }
     }
-
+    //CHANGED
     public void makePlayers(int numPlayers){
         switch (numPlayers){
             case 6:
-                ArrayList<WizardCards> player6Hand = new ArrayList<>(); //cards player has in their hand
-                playerArray.add(player6Hand);
+                WizardPlayer player5 = new WizardPlayer(5, "Player 5");
+                listOfPlayers.add(player5);
             case 5:
-                ArrayList<WizardCards> player5Hand = new ArrayList<>(); //cards player has in their hand
-                playerArray.add(player5Hand);
+                WizardPlayer player4 = new WizardPlayer(4, "Player 4");
+                listOfPlayers.add(player4);
             case 4:
-                ArrayList<WizardCards> player4Hand = new ArrayList<>(); //cards player has in their hand
-                playerArray.add(player4Hand);
+                WizardPlayer player3 = new WizardPlayer(3, "Player 3");
+                listOfPlayers.add(player3);
             case 3:
-                ArrayList<WizardCards> player3Hand = new ArrayList<>(); //cards player has in their hand
-                ArrayList<WizardCards> player2Hand = new ArrayList<>(); //cards player has in their hand
-                ArrayList<WizardCards> player1Hand = new ArrayList<>(); //cards player has in their hand
-                playerArray.add(player1Hand);
-                playerArray.add(player2Hand);
-                playerArray.add(player3Hand);
+                WizardPlayer player0 = new WizardPlayer(0, "Player 0");
+                WizardPlayer player1 = new WizardPlayer(1, "Player 1");
+                WizardPlayer player2 = new WizardPlayer(2, "Player 2");
+                listOfPlayers.add(player0);
+                listOfPlayers.add(player1);
+                listOfPlayers.add(player2);
         }
     }
 
     //deals a card out to a player
     //CHANGED
-    public void dealDeck(ArrayList deck, ArrayList playerHand, int numTricks){
+    public void dealDeck(int numTricks){
         Random random = new Random();
-        for (int round = 0; round < numTricks; round++) {
-            int randomCard = random.nextInt(deck.size());
-            playerHand.add(deck.get(randomCard));
-            deck.remove(randomCard);
+        for (int i = 0; i < listOfPlayers.size(); i++){
+            for (int round = 0; round < numTricks; round++) {
+                int randomCard = random.nextInt(deck.size());
+                listOfPlayers.get(i).addCardtoHand(deck.get(randomCard));
+                deck.remove(randomCard);
+            }
         }
     }
 
     //copy constructor
     public WizardGameState(WizardGameState myState){
         playerTurn = myState.playerTurn;
-        bidNum = myState.bidNum;
-        cardPlayed = myState.cardPlayed;
-        playerScore = myState.playerScore;
         gameStage = myState.gameStage;
         trumpCard = myState.trumpCard;
         roundNum = myState.roundNum;
 
         //is this a deep copy?
         deck = myState.deck;
-        playerArray = myState.playerArray;
+        listOfPlayers = myState.listOfPlayers;
     }
 
+    //This was used for the gamestate homework
+/*
     @Override
     public String toString(){
         return "Player turn: " + this.playerTurn + "\n Bid: " +
@@ -240,50 +216,9 @@ public class WizardGameState extends GameState {
                 "\n Round Number: " + this.roundNum + "\n Current Deck: " + this.deck +
                 "\n Player's Hand: " + this.playerArray;
     }
-
-    //CHANGED
-    public boolean placeBid(Hashtable bidNum, int bid)
-    {
-        String player = "player" + playerTurn + "Hand";
-        if (bidNum.containsKey(player) && bid >= 0 && bid <= getRoundNum() && gameStage == 0)
-        {
-            bidNum.put(player, bid);
-            if (playerTurn == 3){
-                playerTurn = 0;
-            }
-            else {
-                playerTurn++;
-            }
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    //have to change playcard to use card objects
-    public boolean playCard(Hashtable playerArray, int player, String card)
-    {
-        if (player == playerTurn && playerArray.get(player).containsKey(card))
-        {
-            currentHand.remove(card);
-            playerArray.set(player, currentHand);
-            cardsPlayed.add(card);
-            playerTurn++;
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    public ArrayList getPlayerHand(int player) {return playerArray.get(player);}
+    */
 
     public int getPlayerTurn() {return playerTurn; }
-
-    public int getCardPlayed() {return cardPlayed; }
 
     public int getGameStage() { return gameStage; }
 
@@ -293,21 +228,11 @@ public class WizardGameState extends GameState {
 
     //CHANGED
 
-    public int getPlayer1Score(){ return (int)playerScore.get("player 1"); }
-
-    public int getPlayer2Score(){ return (int)playerScore.get("player 2"); }
-
-    public int getPlayer3Score(){ return (int)playerScore.get("player 3"); }
-
-    public int getPlayer4Score(){ return (int)playerScore.get("player 4"); }
-
     public static String getCardSuit() {return cardSuit; }
 
     public static int getCardNumber() {return cardNumber;}
 
     public void setPlayerTurn(int playerTurn) { this.playerTurn = playerTurn; }
-
-    public void setCardPlayed(int cardPlayed) { this.cardPlayed = cardPlayed; }
 
     public void setGameStage(int gameStage) { this.gameStage = gameStage; }
 
