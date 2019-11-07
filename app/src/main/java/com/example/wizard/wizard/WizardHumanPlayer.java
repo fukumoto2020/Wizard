@@ -152,7 +152,7 @@ public class WizardHumanPlayer extends GameHumanPlayer implements AdapterView.On
                     }
                 case "heart":
                     switch(((WizardCards) info).getCardNumber()){
-                        case "zero":
+                        case 0:
                             this.card1.setImageResource(R.drawable.jester);
                         case "two":
                             this.card1.setImageResource(R.drawable.two_heart);
