@@ -1,8 +1,10 @@
 package com.example.wizard.wizard;
 
+import com.example.wizard.GameFramework.GamePlayer;
+
 import java.util.ArrayList;
 
-public class WizardPlayer extends WizardGameState {
+public class WizardPlayer extends WizardGameState, GamePlayer {
     private int playerID;
     private int player1Score;
     private int player2Score;
@@ -73,5 +75,7 @@ public class WizardPlayer extends WizardGameState {
     public int getPlayer3Score() { return player3Score; }
 
     public int getPlayer4Score() { return player4Score; }
+
+    public ArrayList getCurrentHand() {return currentHand;}
 
 }

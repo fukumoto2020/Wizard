@@ -14,21 +14,23 @@ public class WizardGameState extends GameState {
     private int gameStage;  //which state of the game the player is in
     private String trumpCard;  //suit of trump card
     public int roundNum;
-    //private static String cardSuit;   //cards suit
-    //private static int cardNumber;  //cards value
 
-    //HASHTABLE FOR PLAYERS SCORES
     private ArrayList<WizardCards> deck = new ArrayList<>();
 
     //CHANGED: player array is a list of lists of wizard cards
     private ArrayList<String> cardsPlayed = new ArrayList<>();
     private ArrayList<WizardPlayer> listOfPlayers = new ArrayList<WizardPlayer>();
 
+    //added this
+    private ArrayList<Integer> playerBids = new ArrayList<>();
+
     public WizardGameState(){
         this.playerTurn = 0; //player 0 will go first
         this.gameStage = 0;      //starts at game state 0: bidding phase
         this.roundNum = 1;
+    }
 
+    public void makeCards(){
         WizardCards heartJoker = new WizardCards("heart", 0);
         WizardCards heartTwo = new WizardCards("heart",2);
         WizardCards heartThree = new WizardCards("heart",3);
@@ -98,67 +100,9 @@ public class WizardGameState extends GameState {
                 diamondJoker, diamondTwo, diamondThree, diamondFour, diamondFive, diamondSix, diamondSeven, diamondEight, diamondNine, diamondTen, diamondJack, diamondQueen, diamondKing, diamondAce, diamondWizard,
                 clubJoker, clubTwo, clubThree, clubFour, clubFive, clubSix, clubSeven, clubEight, clubNine, clubTen, clubJack, clubQueen, clubKing, clubAce, clubWizard);
 
-       /* deck.put("heart zero", 0);    //joker
-        deck.put("heart two", 2);
-        deck.put("heart three", 3);
-        deck.put("heart four", 4);
-        deck.put("heart five", 5);
-        deck.put("heart six", 6);
-        deck.put("heart seven", 7);
-        deck.put("heart eight", 8);
-        deck.put("heart nine", 9);
-        deck.put("heart ten", 10);
-        deck.put("heart eleven", 11); //jack
-        deck.put("heart twelve", 12); //queen
-        deck.put("heart thirteen", 13);   //king
-        deck.put("heart fourteen", 14);   //ace
-        deck.put("heart fifteen", 15);  //wizard
-        deck.put("spade zero", 0);    //joker
-        deck.put("spade two", 2);
-        deck.put("spade three", 3);
-        deck.put("spade four", 4);
-        deck.put("spade five", 5);
-        deck.put("spade six", 6);
-        deck.put("spade seven", 7);
-        deck.put("spade eight", 8);
-        deck.put("spade nine", 9);
-        deck.put("spade ten", 10);
-        deck.put("spade eleven", 11); //jack
-        deck.put("spade twelve", 12); //queen
-        deck.put("spade thirteen", 13);   //king
-        deck.put("spade fourteen", 14);   //ace
-        deck.put("spade fifteen", 15);  //wizard
-        deck.put("diamond zero", 0);    //joker
-        deck.put("diamond two", 2);
-        deck.put("diamond three", 3);
-        deck.put("diamond four", 4);
-        deck.put("diamond five", 5);
-        deck.put("diamond six", 6);
-        deck.put("diamond seven", 7);
-        deck.put("diamond eight", 8);
-        deck.put("diamond nine", 9);
-        deck.put("diamond ten", 10);
-        deck.put("diamond eleven", 11); //jack
-        deck.put("diamond twelve", 12); //queen
-        deck.put("diamond thirteen", 13);   //king
-        deck.put("diamond fourteen", 14);   //ace
-        deck.put("diamond fifteen", 15);  //wizard
-        deck.put("club zero", 0);    //joker
-        deck.put("club two", 2);
-        deck.put("club three", 3);
-        deck.put("club four", 4);
-        deck.put("club five", 5);
-        deck.put("club six", 6);
-        deck.put("club seven", 7);
-        deck.put("club eight", 8);
-        deck.put("club nine", 9);
-        deck.put("club ten", 10);
-        deck.put("club eleven", 11); //jack
-        deck.put("club twelve", 12); //queen
-        deck.put("club thirteen", 13);   //king
-        deck.put("club fourteen", 14);   //ace
-        deck.put("club fifteen", 15);  //wizard*/
     }
+
+
 
     public void makePlayers(int numPlayers){
         switch (numPlayers){
@@ -205,18 +149,7 @@ public class WizardGameState extends GameState {
         listOfPlayers = myState.listOfPlayers;
     }
 
-    //This was used for the gamestate homework
-/*
-    @Override
-    public String toString(){
-        return "Player turn: " + this.playerTurn + "\n Bid: " +
-                "\n Card Played: " + this.cardPlayed + "\n Player Score: " + this.playerScore +
-                "\n Game Stage: " + this.gameStage + "\n Trump Card: " + this.trumpCard +
-                "\n Round Number: " + this.roundNum + "\n Current Deck: " + this.deck +
-                "\n Player's Hand: " + this.playerArray;
-    }
-    */
-
+//move these methods
     public boolean placeBid(Hashtable bidNum, int bid)
     {
         String player = "player" + playerTurn + "Hand";
@@ -263,18 +196,7 @@ public class WizardGameState extends GameState {
 
     public int getRoundNum() { return roundNum; }
 
-    //public static String getCardSuit() {return cardSuit; }
-
-    //public static int getCardNumber() {return cardNumber;}
-
-    public void setPlayerTurn(int playerTurn)
-    {
-        if(playerTurn == 3)
-        {
-            playerTurn = 0;
-        }
-        this.playerTurn = playerTurn;
-    }
+    public void setPlayerTurn(int playerTurn) { this.playerTurn = playerTurn; }
 
     public void setGameStage(int gameStage) { this.gameStage = gameStage; }
 
@@ -290,5 +212,9 @@ public class WizardGameState extends GameState {
     public WizardPlayer getPlayerInfo(int playerID){
         return listOfPlayers.get(playerID);
     }
+
+    public ArrayList getPlayerBids(){return playerBids;}
+
+    public ArrayList setPlayerBids(ArrayList newPlayerBids){this.playerBids = newPlayerBids;}
 
 }

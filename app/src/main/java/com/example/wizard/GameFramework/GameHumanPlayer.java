@@ -20,6 +20,7 @@ import com.example.wizard.GameFramework.utilities.GameTimer;
 import com.example.wizard.GameFramework.utilities.Logger;
 import com.example.wizard.GameFramework.utilities.MessageBox;
 import com.example.wizard.GameFramework.utilities.Tickable;
+import com.example.wizard.wizard.WizardPlayer;
 
 /**
  * class GameHumanPlayer
@@ -33,7 +34,7 @@ import com.example.wizard.GameFramework.utilities.Tickable;
  * @version July 2013
  *
  */
-public abstract class GameHumanPlayer implements GamePlayer, Tickable {
+public abstract class GameHumanPlayer implements GamePlayer, WizardPlayer, Tickable {
     //Tag for logging
     private static final String TAG = "GameHumanPlayer";
     /**

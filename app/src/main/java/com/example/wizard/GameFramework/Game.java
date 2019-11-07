@@ -1,6 +1,7 @@
 package com.example.wizard.GameFramework;
 
 import com.example.wizard.GameFramework.actionMessage.GameAction;
+import com.example.wizard.wizard.WizardPlayer;
 
 /**
  * To support remote play, this game framework has two types of Games: local

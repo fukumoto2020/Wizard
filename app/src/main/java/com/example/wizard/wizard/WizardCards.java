@@ -21,6 +21,13 @@ public class WizardCards extends WizardGameState{
         return this.cardValue;
     }
 
+    public String getCardSuit(){
+        return this.cardSuit;
+    }
+
+    public int getCardNumber(){
+        return this.cardNumber;
+    }
 
 
 

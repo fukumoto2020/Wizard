@@ -7,6 +7,8 @@ import com.example.wizard.GameFramework.LocalGame;
 import com.example.wizard.GameFramework.actionMessage.GameAction;
 import com.example.wizard.GameFramework.infoMessage.IllegalMoveInfo;
 
+import java.util.Random;
+
 public class WizardLocalGame extends LocalGame {
     //Tag for logging
     private static final String TAG = "WizardLocalGame";
@@ -71,7 +73,9 @@ public class WizardLocalGame extends LocalGame {
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
         // make a copy of the state, and send it to the player
-        p.sendInfo(new WizardGameState(state));
+        WizardGameState copy = new WizardGameState(state);
+        p.sendInfo(copy);
+
 
     }
 
@@ -85,7 +89,11 @@ public class WizardLocalGame extends LocalGame {
      * 		true iff the player is allowed to move
      */
     protected boolean canMove(int playerIdx) {
-        return playerIdx == state.getPlayerTurn();
+        if (state.getPlayerTurn() == playerIdx) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -99,7 +107,14 @@ public class WizardLocalGame extends LocalGame {
     @Override
     protected boolean makeMove(GameAction action) {
 
+        if(action instanceof WizardBidAction){
+            // gets the ArrayList of integers that contains each player's bids from WizardGameState
+            state.getPlayerBids().add(state.getPlayerTurn(), ((WizardBidAction) action).getBidNum());
+            return true;
+        }
 
+
+/*
         // get the suit and value of the player's hand
         WizardMoveAction tm = (WizardMoveAction) action;
         int cardValue = tm.getCardValue();
@@ -134,6 +149,7 @@ public class WizardLocalGame extends LocalGame {
 
         // return true, indicating the it was a legal move
         return true;
+*/
     }
 
 }

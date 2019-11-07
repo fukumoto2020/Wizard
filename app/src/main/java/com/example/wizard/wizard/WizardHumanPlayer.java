@@ -8,7 +8,9 @@ import android.media.Image;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.wizard.GameFramework.GameHumanPlayer;
@@ -27,7 +29,20 @@ import com.example.wizard.GameFramework.utilities.Logger;
  * @author Steven R. Vegdahl
  * @version September 2016
  */
-public class WizardHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListener {
+public class WizardHumanPlayer extends GameHumanPlayer implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+    private WizardCards cardToPlay;
+
+    private int bidNum = 0;
+
+    WizardPlayAction myPlay = new WizardPlayAction(this, cardToPlay);
+
+    WizardBidAction myBid = new WizardBidAction(this, bidNum);
+
+    WizardGameState myState = new WizardGameState();
+
+    WizardPlayer myPlayer = new WizardPlayer();
+
+
     //Tag for logging
     private static final String TAG = "WizardHumanPlayer1";
     // the current activity
@@ -36,8 +51,6 @@ public class WizardHumanPlayer1 extends GameHumanPlayer implements View.OnTouchL
     // the surface view
     private WizardSurfaceView surfaceView;
 
-    // the ID for the layout to use
-    private int layoutId;
 
     //CHANGED
     // the card picture
@@ -64,12 +77,9 @@ public class WizardHumanPlayer1 extends GameHumanPlayer implements View.OnTouchL
      *
      * @param name
      * 		the player's name
-     * @param layoutId
-     *      the id of the layout to use
      */
-    public WizardHumanPlayer1(String name, int layoutId) {
+    public WizardHumanPlayer(String name) {
         super(name);
-        this.layoutId = layoutId;
     }
 
     /**
@@ -87,11 +97,11 @@ public class WizardHumanPlayer1 extends GameHumanPlayer implements View.OnTouchL
             // if the move was out of turn or otherwise illegal, flash the screen
             surfaceView.flash(Color.RED, 50);
         }
-        else if (!(info instanceof WizardState))
+        else if (!(info instanceof WizardGameState))
             // if we do not have a WizardState, ignore
             return;
         else {
-            surfaceView.setState((WizardState)info);
+            surfaceView.setState((WizardGameState)info);
             surfaceView.invalidate();
             Logger.log(TAG, "receiving");
         }
@@ -106,9 +116,9 @@ public class WizardHumanPlayer1 extends GameHumanPlayer implements View.OnTouchL
 
 
             //need to change this to use wizardcard objects
-            switch(((WizardCards) info).getCardValue()){
+            switch(((WizardCards) info).getCardSuit()){
                 case "diamond":
-                    switch(((WizardGameState) info).getCardNumber()){
+                    switch(((WizardCards) info).getCardNumber()){
                         case 0:
                             this.card1.setImageResource(R.drawable.jester);
                         case 2:
@@ -141,7 +151,7 @@ public class WizardHumanPlayer1 extends GameHumanPlayer implements View.OnTouchL
                             this.card1.setImageResource(R.drawable.wizard);
                     }
                 case "heart":
-                    switch(((WizardGameState) info).getCardValue()){
+                    switch(((WizardCards) info).getCardNumber()){
                         case "zero":
                             this.card1.setImageResource(R.drawable.jester);
                         case "two":
@@ -174,7 +184,7 @@ public class WizardHumanPlayer1 extends GameHumanPlayer implements View.OnTouchL
                             this.card1.setImageResource(R.drawable.wizard);
                     }
                 case "spade":
-                    switch(((WizardGameState) info).getCardValue()){
+                    switch(((WizardCards) info).getCardNumber()){
                         case "zero":
                             this.card1.setImageResource(R.drawable.jester);
                         case "two":
@@ -207,7 +217,7 @@ public class WizardHumanPlayer1 extends GameHumanPlayer implements View.OnTouchL
                             this.card1.setImageResource(R.drawable.wizard);
                     }
                 case "club":
-                    switch(((WizardGameState) info).getCardValue()){
+                    switch(((WizardCards) info).getCardNumber()){
                         case "zero":
                             this.card1.setImageResource(R.drawable.jester);
                         case "two":
@@ -252,15 +262,31 @@ public class WizardHumanPlayer1 extends GameHumanPlayer implements View.OnTouchL
         myActivity = activity;
 
         // Load the layout resource for the new configuration
-        activity.setContentView(layoutId);
+        /*activity.setContentView(layoutId);
 
         // set the surfaceView instance variable
         surfaceView = (WizardSurfaceView)myActivity.findViewById(R.id.surfaceView);
         Logger.log("set listener","OnTouch");
-        surfaceView.setOnTouchListener(this);
+        surfaceView.setOnTouchListener(this);*/
+
+
+        LinearLayout cardLayout = (LinearLayout)activity.findViewById(R.id.cardLayout);
+        for(int i = 0; i<myState.getRoundNum(); i++){
+            ImageView card = new ImageView(this);
+
+            //somehow check the card at index i of player's hand and assign that card's drawable file
+            //to the new imageview created
+            myPlayer.getCurrentHand().get(i);
+            card.setImageResource(R.drawable.ace_club);
+
+            //add layout width layout height stuff here
+            cardLayout.addView(card);
+        }
+
+
 
         //CHANGED
-        ImageView card1 = (ImageView)myActivity.findViewById(R.id.imageView1);
+        /*ImageView card1 = (ImageView)myActivity.findViewById(R.id.imageView1);
         card1.setOnTouchListener(this);
         ImageView card2 = (ImageView)myActivity.findViewById(R.id.imageView2);
         card2.setOnTouchListener(this);
@@ -275,7 +301,7 @@ public class WizardHumanPlayer1 extends GameHumanPlayer implements View.OnTouchL
         ImageView card7 = (ImageView)myActivity.findViewById(R.id.imageView7);
         card7.setOnTouchListener(this);
         ImageView card8 = (ImageView)myActivity.findViewById(R.id.imageView8);
-        card8.setOnTouchListener(this);
+        card8.setOnTouchListener(this);*/
     }
 
     /**
@@ -295,40 +321,36 @@ public class WizardHumanPlayer1 extends GameHumanPlayer implements View.OnTouchL
         myActivity.setTitle("Tic-Tac-Toe: "+allPlayerNames[0]+" vs. "+allPlayerNames[1]);
     }
 
-    /**
-     * callback method when the screen it touched. We're
-     * looking for a screen touch (which we'll detect on
-     * the "up" movement" onto a tic-tac-tie square
-     *
-     * @param event
-     * 		the motion event that was detected
+    /*
+    bid number dropdown and imageview on click listeners go here
      */
-    public boolean onTouch(View v, MotionEvent event) {
-        // ignore if not an "up" event
-        if (event.getAction() != MotionEvent.ACTION_UP) return true;
-        // get the x and y coordinates of the touch-location;
-        // convert them to square coordinates (where both
-        // values are in the range 0..2)
-        int x = (int) event.getX();
-        int y = (int) event.getY();
-        Point p = surfaceView.mapPixelToSquare(x, y);
 
-        // if the location did not map to a legal square, flash
-        // the screen; otherwise, create and send an action to
-        // the game
-        if (p == null) {
-            surfaceView.flash(Color.RED, 50);
-        } else {
-            WizardMoveAction action = new WizardMoveAction(this, p.y, p.x);
-            Logger.log("onTouch", "Human player sending WizardMA ...");
-            game.sendAction(action);
-            surfaceView.invalidate();
+
+    //spinner listener for the bid dropdown menu
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+        if(view.getId() == R.id.bidDropdown) {
+            bidNum = (Integer) parent.getItemAtPosition(pos);
+            super.game.sendAction(myBid);
         }
 
-        // register that we have handled the event
-        return true;
+        //WizardHumanPlayer is like the controller, so when user interacts with dropdown and chooses a bid
+        //we handle that bid here, set it equal to bidNum, and send bidNum through sendAction to the game class
+        //WizardLocalGame extends LocalGame which extends Game, so it receives the action from Game
+
+        //myBid is a WizardBidAction object which sends the player and the bid number to WizardBidAction
 
     }
+    //unused method required with spinner
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback
+    }
+
+    public void onClick(View button) {
+        if(button.getId() == R.id.imageView){
+
+        }
+    }
+
 
 
 }
